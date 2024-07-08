@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const multer = require("multer")
 const s3Multer = require("multer-s3")
+const AWS = require('aws-sdk')
 const s3 = new AWS.S3()
 
 const Controller = require('../controllers/upload.controller')
@@ -20,6 +21,7 @@ const uploadS3 = multer({
     })
 })
 
-router.post('/uploadToS3', uploadS3.array('file', 100), Controller.uploadToS3)
+router.post('/uploadToS3', uploadS3.array('file', 100), Controller.uploadToS3AndDynamoDB)
+router.get('/retrieveData', Controller)
 
 module.exports = router
